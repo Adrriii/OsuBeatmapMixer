@@ -11,6 +11,8 @@ namespace OsuBeatmapMixer {
 
 		static System.Globalization.CultureInfo En_US => new System.Globalization.CultureInfo("en-US");
 
+		static public int BeatmapSeparationDelay = 1000;
+
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>

@@ -23,9 +23,9 @@ namespace OsuBeatmapMixer {
 
 		readonly string osuPath;
 
-		internal MixData(IEnumerable<BeatmapQueue> BeatmapQueues, int Duration, string AudioPath, string OsuPath) {
-			beatmapMixer = new Mixer(BeatmapQueues, Duration);
-			audioMixer = new Audio.Mixer(BeatmapQueues, Duration);
+		internal MixData(IEnumerable<BeatmapQueue> BeatmapQueues, string AudioPath, string OsuPath) {
+			beatmapMixer = new Mixer(BeatmapQueues);
+			audioMixer = new Audio.Mixer(BeatmapQueues);
 
 			audioPath = AudioPath;
 			osuPath = OsuPath;

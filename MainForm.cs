@@ -314,7 +314,7 @@ namespace OsuBeatmapMixer {
 				}
 			}
 
-			MixData mixData = new MixData(Queues, (int) SongDurationNum.Value * 1000, SaveOszFileDialog.FileName, ExportOsuPath);
+			MixData mixData = new MixData(Queues, SaveOszFileDialog.FileName, ExportOsuPath);
 
 			mixData.MixedBeatmap.Artist = ArtistTextBox.Text;
 			mixData.MixedBeatmap.Title = TitleTextBox.Text;

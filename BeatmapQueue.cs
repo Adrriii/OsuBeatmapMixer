@@ -1,6 +1,7 @@
 ﻿using OsuBeatmapMixer.Osu;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,13 @@ namespace OsuBeatmapMixer {
 
 		public int Order { get; set; }
 
-		public int Offset { get; set; }
+        public int Offset { get; set; }
 
-		public string Artist => Beatmap.Artist;
+        public int Start { get; set; }
+
+        public int End { get; set; }
+
+        public string Artist => Beatmap.Artist;
 
 		public string Title => Beatmap.Title;
 
@@ -21,14 +26,17 @@ namespace OsuBeatmapMixer {
 
 		public string DiffName => Beatmap.Difficulty;
 
+		public string Path {  get; set; }
+
 		private string DirPath { get; }
 
-		internal Beatmap Beatmap { get; }
+		public Beatmap Beatmap { get; set; }
 
 		public BeatmapQueue(string Path) {
-			Beatmap = Parser.ParseBeatmap(Path);
-			Beatmap.Offset = Offset;
-			DirPath = System.IO.Path.GetDirectoryName(Path);
+			this.Path = Path;
+			Beatmap = Parser.ParseBeatmap(Path, Start, End);
+            Beatmap.Offset = Offset;
+            DirPath = System.IO.Path.GetDirectoryName(Path);
 		}
 
 		internal string GetAudioPath() =>

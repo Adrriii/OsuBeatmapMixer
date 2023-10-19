@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,21 +13,21 @@ namespace OsuBeatmapMixer.Osu {
 
 		internal List<Beatmap> Beatmaps { get; }
 
-		internal int Duration { get; }
+		internal int Duration = Program.BeatmapSeparationDelay;
 
-		internal int EndBPMChange => ChangeSongTimingPointTime;
+        internal int EndBPMChange => ChangeSongTimingPointTime;
 
 		internal int StartBPMChange => Duration - ChangeSongTimingPointTime;
 
 		const int ChangeSongTimingPointTime = 1000;
 
 		const int OnceProcessPersent = 25;
-
-		internal Mixer(IEnumerable<BeatmapQueue> beatmapQueues, int duration) {
-			Duration = duration;
+			
+		internal Mixer(IEnumerable<BeatmapQueue> beatmapQueues) {
 			Beatmaps = new List<Beatmap>();
 			foreach (var beatmapQueue in beatmapQueues) {
-				beatmapQueue.Beatmap.Offset = beatmapQueue.Offset;
+                beatmapQueue.Beatmap = Parser.ParseBeatmap(beatmapQueue.Path, beatmapQueue.Start, beatmapQueue.End); ;
+                beatmapQueue.Beatmap.Offset = beatmapQueue.Offset;
 				Beatmaps.Add(beatmapQueue.Beatmap);
 			}
 		}

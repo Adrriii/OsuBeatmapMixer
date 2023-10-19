@@ -117,16 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="offsetDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>Offset</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="offsetDataGridViewTextBoxColumn.MinimumWidth" type="System.Int32, mscorlib">
-    <value>90</value>
-  </data>
-  <data name="offsetDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>90</value>
-  </data>
   <data name="artistDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
     <value>アーティスト</value>
   </data>
@@ -158,19 +148,40 @@
   <data name="diffNameDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
     <value>難易度</value>
   </data>
+  <data name="offsetDataGridViewTextBoxColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="offsetDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Beatmaps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 50</value>
+  </data>
+  <data name="Beatmaps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>541, 366</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Beatmaps_Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Beatmaps_Label.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 29</value>
+  </data>
   <data name="Beatmaps_Label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 16</value>
+    <value>39, 16</value>
   </data>
   <data name="Beatmaps_Label.Text" xml:space="preserve">
     <value>譜面</value>
   </data>
   <data name="Beatmap_Add.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="Beatmap_Add.Location" type="System.Drawing.Point, System.Drawing">
+    <value>511, 422</value>
+  </data>
+  <data name="Beatmap_Add.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 25</value>
   </data>
   <data name="Beatmap_Add.Text" xml:space="preserve">
     <value>追加</value>
@@ -184,11 +195,29 @@
   <data name="BeatmapOrderUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="BeatmapOrderUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>408, 422</value>
+  </data>
+  <data name="BeatmapOrderUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 25</value>
+  </data>
   <data name="BeatmapOrderDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="BeatmapOrderDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>434, 422</value>
+  </data>
+  <data name="BeatmapOrderDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 25</value>
+  </data>
   <data name="BeatmapDeleteButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="BeatmapDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>463, 422</value>
+  </data>
+  <data name="BeatmapDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 25</value>
   </data>
   <data name="BeatmapDeleteButton.Text" xml:space="preserve">
     <value>削除</value>
@@ -196,35 +225,71 @@
   <data name="TiTleLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="TiTleLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 89</value>
+  </data>
   <data name="TiTleLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
+    <value>86, 16</value>
   </data>
   <data name="TiTleLabel.Text" xml:space="preserve">
     <value>譜面タイトル</value>
   </data>
+  <data name="TitleTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 107</value>
+  </data>
   <data name="ArtistLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="ArtistLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 33</value>
+  </data>
   <data name="ArtistLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 16</value>
+    <value>92, 16</value>
   </data>
   <data name="ArtistLabel.Text" xml:space="preserve">
     <value>アーティスト名</value>
   </data>
+  <data name="ArtistTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 52</value>
+  </data>
   <data name="HPLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="HPLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 198</value>
+  </data>
+  <data name="HPLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 16</value>
   </data>
   <data name="ODLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="ODLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>644, 198</value>
+  </data>
+  <data name="ODLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 16</value>
+  </data>
   <data name="ARLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="ARLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>812, 198</value>
+  </data>
+  <data name="ARLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 16</value>
+  </data>
+  <data name="SourceTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>666, 280</value>
   </data>
   <data name="SourceLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="SourceLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>663, 260</value>
+  </data>
   <data name="SourceLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 16</value>
+    <value>44, 16</value>
   </data>
   <data name="SourceLabel.Text" xml:space="preserve">
     <value>ソース</value>
@@ -232,8 +297,11 @@
   <data name="TagsLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="TagsLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>663, 320</value>
+  </data>
   <data name="TagsLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 16</value>
+    <value>30, 16</value>
   </data>
   <data name="TagsLabel.Text" xml:space="preserve">
     <value>タグ</value>
@@ -241,8 +309,20 @@
   <data name="ProgressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="ProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 466</value>
+  </data>
+  <data name="ProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>905, 22</value>
+  </data>
   <data name="ExecuteButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="ExecuteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>619, 387</value>
+  </data>
+  <data name="ExecuteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 42</value>
   </data>
   <data name="ExecuteButton.Text" xml:space="preserve">
     <value>実行</value>
@@ -250,32 +330,83 @@
   <data name="CSLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="CSLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>728, 198</value>
+  </data>
+  <data name="CSLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 16</value>
+  </data>
+  <data name="SongDurationNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 341</value>
+  </data>
   <data name="SongDurationLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="SongDurationLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 320</value>
+  </data>
+  <data name="SongDurationLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 16</value>
   </data>
   <data name="SongDurationLabel.Text" xml:space="preserve">
     <value>休憩時間(秒)</value>
   </data>
+  <data name="HPNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 219</value>
+  </data>
+  <data name="ODNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>647, 219</value>
+  </data>
+  <data name="ARNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>815, 219</value>
+  </data>
+  <data name="CSNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>731, 219</value>
+  </data>
+  <data name="CreatorTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>731, 52</value>
+  </data>
   <data name="CreatorLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="CreatorLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>728, 33</value>
+  </data>
   <data name="CreatorLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 16</value>
+    <value>87, 16</value>
   </data>
   <data name="CreatorLabel.Text" xml:space="preserve">
     <value>譜面作成者</value>
   </data>
+  <data name="DifficultyTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 161</value>
+  </data>
   <data name="DifficultyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="DifficultyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 143</value>
+  </data>
   <data name="DifficultyLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
+    <value>71, 16</value>
   </data>
   <data name="DifficultyLabel.Text" xml:space="preserve">
     <value>難易度名</value>
   </data>
+  <data name="TagsTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>666, 341</value>
+  </data>
+  <data name="SliderTickRateNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 282</value>
+  </data>
   <data name="SliderTickRateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="SliderTickRateLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>559, 261</value>
+  </data>
+  <data name="SliderTickRateLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 16</value>
   </data>
   <data name="SaveOszFileDialog.Filter" xml:space="preserve">
     <value>.mp3 ファイル|*.mp3</value>
@@ -283,64 +414,22 @@
   <data name="SaveOszFileDialog.Title" xml:space="preserve">
     <value>mp3ファイルの保存先を選択してください</value>
   </data>
+  <data name="ChangeLanguageButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="ChangeLanguageButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>650, 421</value>
+    <value>755, 456</value>
   </data>
   <data name="ChangeLanguageButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 29</value>
+    <value>150, 31</value>
   </data>
   <data name="ChangeLanguageButton.Text" xml:space="preserve">
     <value>Change lang to English</value>
   </data>
-  <data name="ChangeLang" xml:space="preserve">
-    <value>en-US</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
-  <data name="ConfirmationText1" xml:space="preserve">
-    <value>選択した譜面を削除しますか？</value>
-  </data>
-  <data name="ConfirmationText2" xml:space="preserve">
-    <value>以下の場所のフォルダーに保存しますがよろしいですか？</value>
-  </data>
-  <data name="ErrorText1" xml:space="preserve">
-    <value>実行には2つ以上の譜面が必要です。</value>
-  </data>
-  <data name="ErrorText2" xml:space="preserve">
-    <value>リストに異なるゲームモードの譜面が存在します。</value>
-  </data>
-  <data name="ErrorText3" xml:space="preserve">
-    <value>リストに異なるManiaモードのキーが存在します。</value>
-  </data>
-  <data name="ErrorText4" xml:space="preserve">
-    <value>リストに異なるスライダー感度が存在します。</value>
-  </data>
-  <data name="ErrorText5" xml:space="preserve">
-    <value>最低でもアーティスト名とタイトルが必要です。</value>
-  </data>
-  <data name="ErrorText6" xml:space="preserve">
-    <value>mp3ファイルの保存先を指定してください。</value>
-  </data>
-  <data name="ErrorText7" xml:space="preserve">
-    <value>処理が取り消されました。</value>
-  </data>
-  <data name="FinishedText1" xml:space="preserve">
-    <value>正常に完了しました！</value>
-  </data>
-  <data name="MessageConfirmation" xml:space="preserve">
-    <value>確認</value>
-  </data>
-  <data name="MessageError" xml:space="preserve">
-    <value>エラー</value>
-  </data>
-  <data name="MessageFinished" xml:space="preserve">
-    <value>完了</value>
-  </data>
-  <data name="MessageWarning" xml:space="preserve">
-    <value>注意</value>
-  </data>
-  <data name="WarningText1" xml:space="preserve">
-    <value>リストに同じ譜面が存在します。本当に追加しますか？</value>
-  </data>
-  <data name="WarningText2" xml:space="preserve">
-    <value>{0}は既に存在します。上書きしますか？</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>905, 488</value>
   </data>
 </root>

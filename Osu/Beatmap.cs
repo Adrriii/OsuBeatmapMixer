@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OsuBeatmapMixer.Osu {
 
-	class Beatmap {
+	public class Beatmap {
 
 		internal string AudioFilename { get; set; }
 
@@ -39,7 +39,7 @@ namespace OsuBeatmapMixer.Osu {
 
 		internal double SliderTickRate { get; set; } = 1;
 
-		internal List<TimingPoint> TimingPoints { get;}
+		public List<TimingPoint> TimingPoints { get; set; }
 
 		internal List<HitObject> HitObjects { get; }
 		internal int Offset { get; set; } = 0;

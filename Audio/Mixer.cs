@@ -19,11 +19,7 @@ namespace OsuBeatmapMixer.Audio {
 
 		internal int[] LastNotesOffsets { get; }
 
-		internal int Duration { get; }
-
 		internal int EndTime => ChangeSongTime;
-
-		internal int NextStartTime => Duration - EndTime - StartTime;
 
 		internal int StartTime => ChangeSongTime;
 
@@ -33,19 +29,19 @@ namespace OsuBeatmapMixer.Audio {
 
 		const int PrevProcessPersent = 50;
 
-		internal Mixer(IEnumerable<BeatmapQueue> BeatmapQueues, int duration) {
+		internal Mixer(IEnumerable<BeatmapQueue> BeatmapQueues) {
 			int Length = BeatmapQueues.Count();
 
 			Songs = new string[Length];
 			FirstNotesOffsets = new int[Length];
 			LastNotesOffsets = new int[Length];
-			Duration = duration;
 
 			int i = 0;
 			foreach (var beatmapQueue in BeatmapQueues) {
 				Songs[i] = beatmapQueue.GetAudioPath();
-				FirstNotesOffsets[i] = beatmapQueue.Beatmap.HitObjects[0].StartOffset;
-				LastNotesOffsets[i++] = Osu.Mixer.GetLastNotesOffset(beatmapQueue.Beatmap);
+				FirstNotesOffsets[i] = beatmapQueue.Start;
+				LastNotesOffsets[i] = beatmapQueue.End;
+                i++;
 			}
 		}
 
@@ -102,26 +98,22 @@ namespace OsuBeatmapMixer.Audio {
 			}
 
 			DelayFadeOutSampleProvider FadeSource = new DelayFadeOutSampleProvider(Source[0]);
-			//Console.WriteLine(LastNotesOffsets[0]);
-			FadeSource.BeginFadeOut(LastNotesOffsets[0], EndTime); // Duration Fade
-			ISampleProvider ResSource = FadeSource.Take(TimeSpan.FromMilliseconds(LastNotesOffsets[0] + EndTime));
-			int AddSilenceTime = Math.Max(0, LastNotesOffsets[0] + EndTime - AudioTimes[0]);
+            //Console.WriteLine(LastNotesOffsets[0]);
+            ISampleProvider ResSource = FadeSource.Skip(TimeSpan.FromMilliseconds(FirstNotesOffsets[0])).Take(TimeSpan.FromMilliseconds(LastNotesOffsets[0] - FirstNotesOffsets[0] + Program.BeatmapSeparationDelay));
+			FadeSource.BeginFadeOut(LastNotesOffsets[0], Program.BeatmapSeparationDelay);
 			for (int i = 1; i < Source.Count; i++) {
 				//Console.WriteLine($"{FirstNotesOffsets[i]} : {LastNotesOffsets[i]}");
-				int FadeFirstTime = FirstNotesOffsets[i] - StartTime;
+				int FadeFirstTime = FirstNotesOffsets[i] - Program.BeatmapSeparationDelay;
 				if (FadeFirstTime < 0) {
-					AddSilenceTime += Math.Abs(FadeFirstTime);
 					FadeFirstTime = 0;
 				}
-				FadeSource = new DelayFadeOutSampleProvider(Source[i].Skip(TimeSpan.FromMilliseconds(FadeFirstTime)), true);
-				FadeSource.BeginFadeIn(StartTime);
-				if (i != Source.Count - 1) {
-					int FadeEndTime = LastNotesOffsets[i] - FadeFirstTime;
-					FadeSource = new DelayFadeOutSampleProvider(FadeSource.Take(TimeSpan.FromMilliseconds(FadeEndTime + EndTime)));
-					FadeSource.BeginFadeOut(FadeEndTime, EndTime);
-				}
-				ResSource = ResSource.FollowedBy(TimeSpan.FromMilliseconds(NextStartTime + AddSilenceTime), FadeSource);
-				AddSilenceTime = Math.Max(0, LastNotesOffsets[i] + EndTime - AudioTimes[i]);
+				FadeSource = new DelayFadeOutSampleProvider(Source[i].Skip(TimeSpan.FromMilliseconds(FadeFirstTime)));
+				FadeSource.BeginFadeIn(Program.BeatmapSeparationDelay);
+
+                int FadeEndTime = LastNotesOffsets[i] + Program.BeatmapSeparationDelay - FadeFirstTime;
+				FadeSource = new DelayFadeOutSampleProvider(FadeSource.Take(TimeSpan.FromMilliseconds(FadeEndTime)));
+                FadeSource.BeginFadeOut(FadeEndTime - Program.BeatmapSeparationDelay, Program.BeatmapSeparationDelay);
+                ResSource = ResSource.FollowedBy(FadeSource);
 				ReportProgress((int) (((double) (i + 1) / Source.Count) * OnceProcessPersent) + (OnceProcessPersent * 3) + PrevProcessPersent);
 			}
 

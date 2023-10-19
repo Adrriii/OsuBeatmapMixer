@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -23,13 +24,15 @@ namespace OsuBeatmapMixer.Osu {
 			Unknown
 		}
 
-		internal static Beatmap ParseBeatmap(string Path) {
+		internal static Beatmap ParseBeatmap(string Path, int startOffset, int endOffset) {
 			Beatmap Res = new Beatmap();
+            TimingPoint latest = null;
+			TimingPoint current = null;
 
-			using (StreamReader FileStream = new StreamReader(Path, Encoding.GetEncoding("UTF-8"))) {
+            using (StreamReader FileStream = new StreamReader(Path, Encoding.GetEncoding("UTF-8"))) {
 				ParseMode parseMode = ParseMode.Unknown;
 
-				string Text;
+                string Text;
 				while ((Text = FileStream.ReadLine()) != null) {
 					if (string.IsNullOrWhiteSpace(Text)) continue;
 
@@ -51,12 +54,16 @@ namespace OsuBeatmapMixer.Osu {
 							case ParseMode.Events:
 								break;
 							case ParseMode.TimingPoints:
-								TimingPointsParse(ref Res, Text);
+								current = TimingPointsParse(ref Res, Text, startOffset, endOffset, latest);
+								if(current != null && current.Uninherited == 1)
+								{
+									latest = current;
+                                }
 								break;
 							case ParseMode.Colours:
 								break;
 							case ParseMode.HitObjects:
-								HitObjectsParse(ref Res, Text);
+								HitObjectsParse(ref Res, Text, startOffset, endOffset);
 								break;
 							default:
 								throw new ParseException("Unknown Mode");
@@ -65,6 +72,13 @@ namespace OsuBeatmapMixer.Osu {
 					else parseMode = GetParseMode(Text);
 				}
 			}
+
+			if(latest != null)
+            {
+                latest.Offset = 1;
+                Console.WriteLine("added : " + latest.Offset);
+                Res.TimingPoints = Res.TimingPoints.Prepend(latest).ToList();
+            }
 
 			Res.TimingPoints.Sort((a, b) => a.Offset - b.Offset);
 			Res.HitObjects.Sort((a, b) => a.StartOffset - b.StartOffset);
@@ -146,7 +160,7 @@ namespace OsuBeatmapMixer.Osu {
 			}
 		}
 
-		static void TimingPointsParse(ref Beatmap beatmap, string Text) {
+		static TimingPoint TimingPointsParse(ref Beatmap beatmap, string Text, int startOffset, int endOffset, TimingPoint latest) {
 			#if DEBUG
 			Console.WriteLine(Text);
 			#endif
@@ -160,7 +174,7 @@ namespace OsuBeatmapMixer.Osu {
 			double BeatLength = DoubleParse(TextSplit[1]);
 			if (UnInherited == 0) BeatLength = Math.Abs(BeatLength);
 
-			beatmap.TimingPoints.Add(new TimingPoint(
+			var newTimingPoint = new TimingPoint(
 				ParseToInt(TextSplit[0]),
 				BeatLength,
 				ParseToInt(TextSplit[2]),
@@ -169,24 +183,45 @@ namespace OsuBeatmapMixer.Osu {
 				ParseToInt(TextSplit[5]),
 				UnInherited,
 				ParseToInt(TextSplit[7])
-			));
+			);
+
+            if (newTimingPoint.Offset > endOffset) return null;
+			if (newTimingPoint.Offset < startOffset) return newTimingPoint;
+
+			if(latest != null)
+            {
+				latest.Offset = 0;
+                Console.WriteLine("added : "+latest.Offset);
+                beatmap.TimingPoints.Add(latest);
+            }
+
+			newTimingPoint.Offset -= startOffset;
+
+            Console.WriteLine("added : " + newTimingPoint.Offset);
+            beatmap.TimingPoints.Add(newTimingPoint);
+
+			return null;
 		}
 
-		static void HitObjectsParse(ref Beatmap beatmap, string Text) {
-			#if DEBUG
-			Console.WriteLine(Text);
-			#endif
+		static void HitObjectsParse(ref Beatmap beatmap, string Text, int startOffset, int endOffset) {
 
 			string[] TextSplit = Text.Split(',');
 
 			if (TextSplit.Length < 5)
 				throw new ParseException("TextSplit length is not 8");
 
-			if (TextSplit.Length == 5) { // ShortNormal
+			var offsetStart = ParseToInt(TextSplit[2]);
+
+            if (offsetStart < startOffset) return;
+            if (offsetStart > endOffset) return;
+
+			offsetStart -= startOffset;
+
+            if (TextSplit.Length == 5) { // ShortNormal
 				beatmap.HitObjects.Add(new HitObject(
 					ParseToInt(TextSplit[0]),
 					ParseToInt(TextSplit[1]),
-					ParseToInt(TextSplit[2]),
+					offsetStart,
 					ParseToInt(TextSplit[3]),
 					ParseToInt(TextSplit[4]),
 					null
@@ -197,13 +232,18 @@ namespace OsuBeatmapMixer.Osu {
 				if ((Type & 0b1000_0000) == 128) {
 					List<string> EndIndexSplit = new List<string>(TextSplit[5].Split(':'));
 					int EndOffset = ParseToInt(EndIndexSplit[0]);
-					EndIndexSplit.RemoveAt(0);
+
+					if (EndOffset > endOffset) return;
+
+					EndOffset -= startOffset;
+
+                    EndIndexSplit.RemoveAt(0);
 
 					beatmap.HitObjects.Add(new HitObject(
 						HitObject.ObjectType.ManiaLN,
 						ParseToInt(TextSplit[0]),
 						ParseToInt(TextSplit[1]),
-						ParseToInt(TextSplit[2]),
+						offsetStart,
 						Type,
 						ParseToInt(TextSplit[4]),
 						EndOffset,
@@ -211,15 +251,21 @@ namespace OsuBeatmapMixer.Osu {
 						string.Join(":", EndIndexSplit)
 					));
 				}
-				else if ((Type & 0b0000_1000) == 8) {
-					beatmap.HitObjects.Add(new HitObject(
+				else if ((Type & 0b0000_1000) == 8)
+                {
+                    int EndOffset = ParseToInt(TextSplit[5]);
+
+                    if (EndOffset > endOffset) return;
+                    EndOffset -= startOffset;
+
+                    beatmap.HitObjects.Add(new HitObject(
 						HitObject.ObjectType.ShortSpinner,
 						ParseToInt(TextSplit[0]),
 						ParseToInt(TextSplit[1]),
-						ParseToInt(TextSplit[2]),
+						offsetStart,
 						ParseToInt(TextSplit[3]),
 						ParseToInt(TextSplit[4]),
-						ParseToInt(TextSplit[5]),
+                        EndOffset,
 						null,
 						null
 				));
@@ -228,28 +274,34 @@ namespace OsuBeatmapMixer.Osu {
 					beatmap.HitObjects.Add(new HitObject(
 						ParseToInt(TextSplit[0]),
 						ParseToInt(TextSplit[1]),
-						ParseToInt(TextSplit[2]),
+						offsetStart,
 						Type,
 						ParseToInt(TextSplit[4]),
 						TextSplit[5]
 					));
 				}
 			}
-			else if (TextSplit.Length == 7) { // Spinner
-				beatmap.HitObjects.Add(new HitObject(
+			else if (TextSplit.Length == 7)
+            { // Spinner
+                int EndOffset = ParseToInt(TextSplit[5]);
+
+                if (EndOffset > endOffset) return;
+                EndOffset -= startOffset;
+
+                beatmap.HitObjects.Add(new HitObject(
 						HitObject.ObjectType.Spinner,
 						ParseToInt(TextSplit[0]),
 						ParseToInt(TextSplit[1]),
-						ParseToInt(TextSplit[2]),
+						offsetStart,
 						ParseToInt(TextSplit[3]),
 						ParseToInt(TextSplit[4]),
-						ParseToInt(TextSplit[5]),
+                        EndOffset,
 						null,
 						TextSplit[6]
 				));
 			}
 			else if (TextSplit.Length == 8) { // ShortSlider
-				int StartOffset = ParseToInt(TextSplit[2]);
+				int StartOffset = offsetStart;
 
 				TimingPoint AppliedTimingPoint = GetAppliedTimingPoint(beatmap, StartOffset, true);
 
@@ -259,7 +311,10 @@ namespace OsuBeatmapMixer.Osu {
 
 				int EndOffset = GetSliderEndOffset(StartOffset, SliderLength, beatmap.SliderMultiplier, AppliedTimingPoint.BeatLength, AppliedScale is null ? default : AppliedScale.BeatLength);
 
-				beatmap.HitObjects.Add(new HitObject(
+                if (EndOffset > endOffset) return;
+                EndOffset -= startOffset;
+
+                beatmap.HitObjects.Add(new HitObject(
 					HitObject.ObjectType.ShortSlider,
 					ParseToInt(TextSplit[0]),
 					ParseToInt(TextSplit[1]),
@@ -272,7 +327,7 @@ namespace OsuBeatmapMixer.Osu {
 				));
 			}
 			else if (TextSplit.Length == 11) { // Slider
-				int StartOffset = ParseToInt(TextSplit[2]);
+				int StartOffset = offsetStart;
 
 				TimingPoint AppliedTimingPoint = GetAppliedTimingPoint(beatmap, StartOffset, true);
 
@@ -282,7 +337,10 @@ namespace OsuBeatmapMixer.Osu {
 
 				int EndOffset = GetSliderEndOffset(StartOffset, SliderLength, beatmap.SliderMultiplier, AppliedTimingPoint.BeatLength, AppliedScale is null ? default : AppliedScale.BeatLength);
 
-				beatmap.HitObjects.Add(new HitObject(
+                if (EndOffset > endOffset) return;
+                EndOffset -= startOffset;
+
+                beatmap.HitObjects.Add(new HitObject(
 					HitObject.ObjectType.Slider,
 					ParseToInt(TextSplit[0]),
 					ParseToInt(TextSplit[1]),

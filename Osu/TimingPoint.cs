@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OsuBeatmapMixer.Osu {
 
-	class TimingPoint {
+	public class TimingPoint {
 
-		internal int Offset { get; }
+		public int Offset { get; set; }
 
 		internal double BeatLength { get; }
 
